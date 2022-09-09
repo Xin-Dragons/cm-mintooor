@@ -12,8 +12,10 @@ import {
   Connection,
   PublicKey,
   Transaction,
+  LAMPORTS_PER_SOL
 } from "@solana/web3.js";
-import { useWallet } from "@solana/wallet-adapter-react";
+import toast, { Toaster } from 'react-hot-toast'
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import { WalletDialogButton } from "@solana/wallet-adapter-material-ui";
 import {
   awaitTransactionSignatureConfirmation,
@@ -30,6 +32,8 @@ import { MintCountdown } from "./MintCountdown";
 import { MintButton } from "./MintButton";
 import { GatewayProvider } from "@civic/solana-gateway-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import GetWlTokens from './GetWlTokens';
+import { add, isAfter } from 'date-fns'
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -53,7 +57,24 @@ export interface HomeProps {
   error?: string;
 }
 
+const config = [
+  {
+    mint: '56Vc3PtnxNQVsg8UB78nf2qxeobRYVbqB8TCc2N6YRrr',
+    table: 'template-wl',
+    title: 'WL',
+    tokenMint: false
+  },
+]
+
+type Config = {
+  mint: string;
+  table: string;
+  title: string;
+  tokenMint?: boolean;
+}
+
 const Home = (props: HomeProps) => {
+  const { connection } = useConnection();
   const [isUserMinting, setIsUserMinting] = useState(false);
   const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>();
   const [alertState, setAlertState] = useState<AlertState>({
@@ -70,9 +91,66 @@ const Home = (props: HomeProps) => {
   const [discountPrice, setDiscountPrice] = useState<anchor.BN>();
   const [needTxnSplit, setNeedTxnSplit] = useState(true);
   const [setupTxn, setSetupTxn] = useState<SetupState>();
+  const [wlMintAddress, setWlMintAddress] = useState<PublicKey | null>(null);
+  const [wlSettings, setWlSettings] = useState<Config | null>(null);
+  const [isTokenMint, setIsTokenMint] = useState<boolean>(false);
+  const [canClaim, setCanClaim] = useState<boolean>(false);
+  const [time, setTime] = useState<number>(Date.now());
+  const [balance, setBalance] = useState<number>(0);
+  const wallet = useWallet();
+
+  async function getSolBalance() {
+    if (wallet.publicKey) {
+      const balance = await connection.getBalance(wallet.publicKey);
+
+      setBalance(balance / LAMPORTS_PER_SOL)
+    }
+  }
+
+  useEffect(() => {
+    const { open, severity, message } = alertState;
+    if (open) {
+      if (severity === 'error') {
+        toast.error(message)
+      } else if (severity === 'success') {
+        toast.success(message)
+      } else {
+        toast(message);
+      }
+    }
+  }, [alertState])
+
+  let interval: ReturnType<typeof setInterval>;
+
+  useEffect(() => {
+    interval = setInterval(() => setTime(Date.now()), 1000);
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    if (candyMachine?.state?.goLiveDate) {
+      const goLiveDate = toDate(candyMachine?.state?.goLiveDate) || new Date();
+      const in15Mins = add(new Date(), { minutes: 15 });
+      setCanClaim(isAfter(in15Mins, goLiveDate))
+    }
+  }, [candyMachine?.state?.goLiveDate, time])
+
+  useEffect(() => {
+    if (wlMintAddress) {
+      setWlSettings(
+        config.find(c => c.mint === wlMintAddress?.toString()) || null
+      )
+    }
+  }, [wlMintAddress])
+
+  useEffect(() => {
+    if (!wallet?.publicKey) {
+      return;
+    }
+    getSolBalance()
+  }, [wallet?.publicKey])
 
   const rpcUrl = props.rpcHost;
-  const wallet = useWallet();
   const cluster = props.network;
   const anchorWallet = useMemo(() => {
     if (
@@ -147,6 +225,7 @@ const Home = (props: HomeProps) => {
                 cndy.state.isWhitelistOnly = true;
               }
             }
+            setWlMintAddress(cndy.state.whitelistMintSettings.mint);
             // retrieves the whitelist token
             const mint = new anchor.web3.PublicKey(
               cndy.state.whitelistMintSettings.mint
@@ -488,7 +567,11 @@ const Home = (props: HomeProps) => {
 
   return (
     <Container style={{ marginTop: 100 }}>
+      <Toaster />
       <Container maxWidth="xs" style={{ position: "relative" }}>
+        {
+          wlSettings && <GetWlTokens wlSettings={wlSettings} canClaim={canClaim || isPresale} />
+        }
         <Paper
           style={{
             padding: 24,

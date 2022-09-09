@@ -1,10 +1,12 @@
 import * as anchor from "@project-serum/anchor";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import { SystemProgram } from "@solana/web3.js";
 import {
   LAMPORTS_PER_SOL,
   SYSVAR_RENT_PUBKEY,
   TransactionInstruction,
+  PublicKey,
+  SystemProgram,
+  Transaction
 } from "@solana/web3.js";
 
 export interface AlertState {
@@ -137,4 +139,55 @@ export function createAssociatedTokenAccountInstruction(
     programId: SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
     data: Buffer.from([]),
   });
+}
+
+type Key = {
+  pubkey: PublicKey
+}
+
+type Instruction = {
+  data: Buffer,
+  programId: PublicKey,
+  keys: Array<Key>
+}
+
+type Signature = {
+  publicKey: PublicKey,
+  signature: Buffer | null
+}
+
+type Trans = {
+  instructions: Array<Instruction>;
+  feePayer: PublicKey;
+  signatures: Array<Signature>;
+}
+
+export function unwrapTransaction(transaction: Trans) {
+  transaction.instructions = transaction.instructions.map((i: Instruction) => {
+    return {
+      ...i,
+      data: new Buffer(i.data),
+      programId: new PublicKey(i.programId),
+      keys: i.keys.map((key: Key) => {
+        return {
+          ...key,
+          pubkey: new PublicKey(key.pubkey)
+        }
+      })
+    }
+  })
+
+  transaction.feePayer = new PublicKey(transaction.feePayer)
+
+  transaction.signatures = transaction.signatures.map(s => {
+    return {
+      ...s,
+      publicKey: new PublicKey(s.publicKey),
+      signature: s.signature
+        ? new Buffer(s.signature)
+        : null
+    }
+  });
+
+  return new Transaction(transaction);
 }
