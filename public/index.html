@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Candy Machine UI"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Dragonz Labs Mint" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/android-chrome-192x192.png" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -24,12 +22,218 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Candy Machine UI</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+  <title>Dragonz Labs Mint</title>
+</head>
+
+<body>
+  <style>
+    @font-face {
+      font-family: "Futura";
+      font-weight: normal;
+      font-style: normal;
+      src: url("/futura.woff") format("woff");
+    }
+
+    /** Fractul SemiBold */
+    @font-face {
+      font-family: "Futura";
+      font-weight: normal;
+      font-style: normal;
+      src: url("/futura.woff2") format("woff2");
+    }
+
+    @font-face {
+      font-family: "Plakaat";
+      font-weight: normal;
+      font-style: normal;
+      src: url("/Plakkaat.woff") format("woff");
+    }
+
+    /** Fractul SemiBold */
+    @font-face {
+      font-family: "Plakaat";
+      font-weight: normal;
+      font-style: normal;
+      src: url("/Plakkaat.woff2") format("woff2");
+    }
+
+    body {
+      background-color: #000000 !important;
+      background-image: url("/bg.jpg") !important;
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-size: cover !important;
+      padding-top: 0;
+    }
+
+    .MuiContainer-root {
+      padding: 0 !important;
+
+
+    }
+
+    .MuiPaper-root {
+      background-color: rgba(0, 0, 0, 0.7) !important;
+      margin-top: 10px;
+    }
+
+    .MuiContainer-root .MuiPaper-root {
+      padding: 5px 20px;
+      border-radius: 6px;
+    }
+
+    .MuiContainer-root .MuiPaper-root h2 {
+      text-align: center;
+      text-transform: uppercase !important;
+      margin-top: 0
+    }
+
+    h1,
+    h2,
+    p {
+      font-family: "Futura";
+      text-align: center;
+      color: #fff;
+      font-size: 60px;
+      font-weight: 900;
+      text-shadow: 0 0 20px #000000;
+      margin: 60px 0;
+    }
+
+    h2 {
+      font-size: 40px;
+      margin: 0;
+    }
+
+    p {
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .gogo {
+      margin-bottom: 0;
+    }
+
+    .nft img {
+      width: 100%;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .gogo img {
+      width: 30% !important;
+    }
+
+    .doxxed {
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 20px;
+      font-weight: 600;
+      border-radius: 5px;
+      border: 1px solid #ab2df5;
+      padding: 10px;
+      box-shadow: 0 0 10px #ab2df5;
+      color: rgba(255, 255, 255, 0.753);
+    }
+
+    .shop {
+      text-align: center;
+      margin-top: -110px;
+      margin-bottom: -50px
+    }
+
+    .MuiButton-contained {
+      background: linear-gradient(139.3deg, #ea42dc -19.63%, #ab2df5 76.88%) !important;
+      color: #ffffff;
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 25px;
+    }
+
+    .MuiButton-containedPrimary,
+    .MuiButton-containedPrimary:hover {
+      background: linear-gradient(139.3deg, #ea42dc -19.63%, #ab2df5 76.88%) !important;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 15px;
+    }
+
+    .Balance {
+      background: linear-gradient(139.3deg, #AFD55B -19.63%, #5F8900 76.88%) !important;
+      color: #ffffff;
+      font-size: 15px;
+      line-height: 40px !important;
+      display: block;
+      line-height: 20px;
+      text-align: center;
+      border-radius: 5px;
+      font-weight: 900;
+      margin-top: 10px;
+      margin-left: 5px;
+      padding: 10px;
+    }
+
+    .itemtitle {
+      margin-bottom: 0
+    }
+
+    footer {
+      width: 100%;
+      text-align: center;
+      margin-top: 50px
+    }
+
+    /* Works on Firefox */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #ea42dc rgb(0, 0, 0);
+    }
+
+    /* Works on Chrome, Edge, and Safari */
+    *::-webkit-scrollbar {
+      width: 12px;
+      height: 20px
+    }
+
+    *::-webkit-scrollbar-track {
+      background: #000000;
+    }
+
+    *::-webkit-scrollbar-thumb {
+
+      background: linear-gradient(180deg, #ea42dc 0%, #00000000 100%);
+      ;
+      border-radius: 5px;
+      transform: rotate(90deg);
+      margin-right: 10px;
+    }
+
+    @media (max-width: 600px) {
+      footer {
+        margin-top: 30px
+      }
+
+      body {
+        padding: 20px !important;
+      }
+
+      .gogo img {
+        width: 100% !important;
+      }
+    }
+  </style>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div>
+    <h1 class="gogo">Dragonz Labs Mintooor</h1>
+    <h2>3939 Dragonz protecting their egg</h2>
+    <p>Azura - a social analytics platform on #Solana 🏰 Launching Sunday 11th</p>
+    <p style="padding-top: 20px;"><a href="https://twitter.com/DragonzLabs"><img src="twitter.svg" /></a> <a
+        href="https://discord.gg/dragonzlabs"><img src="discord.svg" /></a>
+    </p>
+  </div>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -39,5 +243,11 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+  <center>
+    <footer><a style="z-index:0;margin-top:100px;display: block;" href="https://xlaunchpad.co" target="_blank">
+        <img src="/xlaunchpad.png" alt="XLaunchpad" />
+      </a></footer>
+  </center>
+</body>
+
 </html>

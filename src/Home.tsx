@@ -566,7 +566,7 @@ const Home = (props: HomeProps) => {
   }, [refreshCandyMachineState]);
 
   return (
-    <Container style={{ marginTop: 100 }}>
+    <Container style={{ marginTop: 20 }}>
       <Toaster />
       <Container maxWidth="xs" style={{ position: "relative" }}>
         {
@@ -580,6 +580,7 @@ const Home = (props: HomeProps) => {
             borderRadius: 6,
           }}
         >
+          <div className="nft"><img src="/nfts.gif" /></div>
           {!wallet.connected ? (
             <ConnectButton>Connect Wallet</ConnectButton>
           ) : (
@@ -619,8 +620,8 @@ const Home = (props: HomeProps) => {
                       {isWhitelistUser && discountPrice
                         ? `◎ ${formatNumber.asNumber(discountPrice)}`
                         : `◎ ${formatNumber.asNumber(
-                            candyMachine.state.price
-                          )}`}
+                          candyMachine.state.price
+                        )}`}
                     </Typography>
                   </Grid>
                   <Grid item xs={5}>
@@ -650,18 +651,18 @@ const Home = (props: HomeProps) => {
                           style={{ justifyContent: "flex-end" }}
                           status={
                             candyMachine?.state?.isSoldOut ||
-                            (endDate && Date.now() > endDate.getTime())
+                              (endDate && Date.now() > endDate.getTime())
                               ? "COMPLETED"
                               : isPresale
-                              ? "PRESALE"
-                              : "LIVE"
+                                ? "PRESALE"
+                                : "LIVE"
                           }
                           onComplete={toggleMintButton}
                         />
                         {isPresale &&
                           candyMachine.state.goLiveDate &&
                           candyMachine.state.goLiveDate.toNumber() >
-                            new Date().getTime() / 1000 && (
+                          new Date().getTime() / 1000 && (
                             <Typography
                               variant="caption"
                               align="center"
@@ -678,9 +679,9 @@ const Home = (props: HomeProps) => {
               )}
               <MintContainer>
                 {candyMachine?.state.isActive &&
-                candyMachine?.state.gatekeeper &&
-                wallet.publicKey &&
-                wallet.signTransaction ? (
+                  candyMachine?.state.gatekeeper &&
+                  wallet.publicKey &&
+                  wallet.signTransaction ? (
                   <GatewayProvider
                     wallet={{
                       publicKey:
@@ -722,13 +723,14 @@ const Home = (props: HomeProps) => {
               </MintContainer>
             </>
           )}
+          <div className="doxxed">Privately Doxxed</div>
           <Typography
             variant="caption"
             align="center"
             display="block"
-            style={{ marginTop: 7, color: "grey" }}
+            style={{ marginTop: 7, color: "#f7f7f7b3" }}
           >
-            Powered by METAPLEX
+            * Royalties are set to 98% and will be back to 7% when mint is completed
           </Typography>
         </Paper>
       </Container>
@@ -765,8 +767,8 @@ const getCountdownDate = (
     candyMachine.state.goLiveDate
       ? candyMachine.state.goLiveDate
       : candyMachine.state.isPresale
-      ? new anchor.BN(new Date().getTime() / 1000)
-      : undefined
+        ? new anchor.BN(new Date().getTime() / 1000)
+        : undefined
   );
 };
 
