@@ -59,8 +59,8 @@ export interface HomeProps {
 
 const config = [
   {
-    mint: '56Vc3PtnxNQVsg8UB78nf2qxeobRYVbqB8TCc2N6YRrr',
-    table: 'template-wl',
+    mint: 'GX6k8CEErUYt9C78UcGYXc2AY1EVMFd4ZmLTtv1nRNGy',
+    table: 'dragonz-labs-wl',
     title: 'WL',
     tokenMint: false
   },
