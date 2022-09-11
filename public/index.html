@@ -72,6 +72,30 @@
 
     }
 
+    .mainwrap {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      max-width: 900px !important;
+    }
+
+    .mainwrap .MuiContainer-root {
+      width: 450px !important;
+    }
+
+    .wlpaper {}
+
+    .wlpaper h3 {
+      margin: 0;
+      text-align: center !important;
+    }
+
+    .wlpaper p {
+      font-weight: 400 !important;
+      margin-top: 10px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
     .MuiPaper-root {
       background-color: rgba(0, 0, 0, 0.7) !important;
       margin-top: 10px;
@@ -118,6 +142,7 @@
       width: 100%;
       border-radius: 20px;
       margin-bottom: 10px;
+      margin-top: 10px
     }
 
     .gogo img {
@@ -210,6 +235,27 @@
     }
 
     @media (max-width: 600px) {
+
+
+      .mainwrap {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .mainwrap .MuiContainer-root {
+        width: 100% !important;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 32px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+
       footer {
         margin-top: 30px
       }
@@ -225,9 +271,10 @@
   </style>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div>
-    <h1 class="gogo">Dragonz Labs Mintooor</h1>
-    <h2>3939 Dragonz protecting their egg</h2>
-    <p>Azura - a social analytics platform on #Solana 🏰 Launching Sunday 11th</p>
+    <h1 class="gogo">Dragonz Labs Mint</h1>
+    <h2>Dragonz aiming to protect their egg,<br /></h2>
+    <p>Azura, a social analytical platform built by Dragonz Labs. <br />Enter the kingdom to unlock a powerful platform
+      and tools among a strong community.</p>
     <p style="padding-top: 20px;"><a href="https://twitter.com/DragonzLabs"><img src="twitter.svg" /></a> <a
         href="https://discord.gg/dragonzlabs"><img src="discord.svg" /></a>
     </p>

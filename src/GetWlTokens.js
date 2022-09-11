@@ -126,18 +126,18 @@ export default function Claim({ wlSettings, canClaim }) {
   return (
     <Container>
       <Container maxWidth="xs">
-      <Paper>
+      <Paper className="wlpaper">
           <main>
-
+          <div className="nft"><img src="/nfts.gif" /></div>
             {wallet.connected && (
               <div>
-                <h2>{wlSettings.title}</h2>
-                <h3>
+                <h2 style={{fontSize:30}}>Please verify yourself to mint</h2>
+                {/* <h3>
                   Minting tokens to claim: { tokensToClaim }
                 </h3>
-                <h3>Minting token balance: {tokenBalance}</h3>
+                <h3>Minting token balance: {tokenBalance}</h3> */}
                 {
-                  !canClaim && <p>Minting token claim opens 15 mins before minting round</p>
+                  !canClaim && <p>Verification starts 15 minutes before the mint</p>
                 }
                 <CTAButton
                   disabled={loading || tokensToClaim === 0 || !canClaim}
@@ -146,7 +146,7 @@ export default function Claim({ wlSettings, canClaim }) {
                   {loading ? (
                     <CircularProgress />
                   ) : (
-                    "Claim"
+                    "VERIFY YOURSELF"
                   )}
                 </CTAButton>
               </div>

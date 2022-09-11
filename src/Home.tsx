@@ -568,7 +568,7 @@ const Home = (props: HomeProps) => {
   return (
     <Container style={{ marginTop: 20 }}>
       <Toaster />
-      <Container maxWidth="xs" style={{ position: "relative" }}>
+      <Container maxWidth="xs" style={{ position: "relative" }} className="mainwrap">
         {
           wlSettings && <GetWlTokens wlSettings={wlSettings} canClaim={canClaim || isPresale} />
         }
@@ -580,7 +580,7 @@ const Home = (props: HomeProps) => {
             borderRadius: 6,
           }}
         >
-          <div className="nft"><img src="/nfts.gif" /></div>
+
           {!wallet.connected ? (
             <ConnectButton>Connect Wallet</ConnectButton>
           ) : (
