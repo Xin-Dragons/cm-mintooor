@@ -570,7 +570,7 @@ const Home = (props: HomeProps) => {
       <Toaster />
       <Container maxWidth="xs" style={{ position: "relative" }} className="mainwrap">
         {
-          wlSettings && <GetWlTokens wlSettings={wlSettings} canClaim={true} />
+          wlSettings && <GetWlTokens wlSettings={wlSettings} canClaim={canClaim || isPresale} />
         }
         <Paper
           style={{
