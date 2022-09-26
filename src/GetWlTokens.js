@@ -128,7 +128,7 @@ export default function Claim({ wlSettings, canClaim }) {
       <Container maxWidth="xs">
       <Paper className="wlpaper">
           <main>
-          <div className="nft"><img src="/nft.jpg" /></div>
+         
             {wallet.connected && (
               <div>
                 <h2 style={{fontSize:30}}>Please verify yourself to mint</h2>
