@@ -723,14 +723,14 @@ const Home = (props: HomeProps) => {
               </MintContainer>
             </>
           )}
-          <div className="doxxed">Privately Doxxed</div>
+          <div className="doxxed">Collection of 5000 PFPs</div>
           <Typography
             variant="caption"
             align="center"
             display="block"
             style={{ marginTop: 7, color: "#f7f7f7b3" }}
           >
-            * Royalties are set to 98% and will be back to 7% when mint is completed
+            {/* * Royalties are set to 98% and will be back to 7% when mint is completed */}
           </Typography>
         </Paper>
       </Container>
