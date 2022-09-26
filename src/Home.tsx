@@ -723,7 +723,7 @@ const Home = (props: HomeProps) => {
               </MintContainer>
             </>
           )}
-          <div className="doxxed">Collection of 5000 PFPs</div>
+          <div className="doxxed">It's almost time to cause a scene</div>
           <Typography
             variant="caption"
             align="center"
