@@ -565,6 +565,10 @@ const Home = (props: HomeProps) => {
     })();
   }, [refreshCandyMachineState]);
 
+  const price = isWhitelistUser && discountPrice
+    ? formatNumber.asNumber(discountPrice)
+    : formatNumber.asNumber(candyMachine?.state?.price)
+
   return (
     <Container style={{ marginTop: 20 }}>
       <Toaster />
@@ -617,11 +621,12 @@ const Home = (props: HomeProps) => {
                       color="textPrimary"
                       style={{ fontWeight: "bold" }}
                     >
-                      {isWhitelistUser && discountPrice
-                        ? `◎ ${formatNumber.asNumber(discountPrice)}`
-                        : `◎ ${formatNumber.asNumber(
-                          candyMachine.state.price
-                        )}`}
+                      {
+                        candyMachine?.state?.tokenMint
+                          ? `${price} vBLSH`
+                          : `◎ ${price}`
+                      }
+
                     </Typography>
                   </Grid>
                   <Grid item xs={5}>
