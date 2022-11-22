@@ -572,132 +572,148 @@ const Home = (props: HomeProps) => {
         {
           wlSettings && <GetWlTokens wlSettings={wlSettings} canClaim={true} />
         }
-        <Paper
-          style={{
-            padding: 24,
-            paddingBottom: 10,
-            backgroundColor: "#151A1F",
-            borderRadius: 6,
-          }}
-        >
-
-          {!wallet.connected ? (
-            <ConnectButton>Connect Wallet</ConnectButton>
-          ) : (
-            <>
-              {candyMachine && (
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="center"
-                  wrap="nowrap"
-                >
-                  <Grid item xs={3}>
-                    <Typography variant="body2" color="textSecondary">
-                      Remaining
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      color="textPrimary"
-                      style={{
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {`${itemsRemaining}`}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="body2" color="textSecondary">
-                      {isWhitelistUser && discountPrice
-                        ? "Discount Price"
-                        : "Price"}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      color="textPrimary"
-                      style={{ fontWeight: "bold" }}
-                    >
-                      {isWhitelistUser && discountPrice
-                        ? `◎ ${formatNumber.asNumber(discountPrice)}`
-                        : `◎ ${formatNumber.asNumber(
-                          candyMachine.state.price
-                        )}`}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={5}>
-                    {isActive && endDate && Date.now() < endDate.getTime() ? (
-                      <>
-                        <MintCountdown
-                          key="endSettings"
-                          date={getCountdownDate(candyMachine)}
-                          style={{ justifyContent: "flex-end" }}
-                          status="COMPLETED"
-                          onComplete={toggleMintButton}
-                        />
-                        <Typography
-                          variant="caption"
-                          align="center"
-                          display="block"
-                          style={{ fontWeight: "bold" }}
-                        >
-                          TO END OF MINT
-                        </Typography>
-                      </>
-                    ) : (
-                      <>
-                        <MintCountdown
-                          key="goLive"
-                          date={getCountdownDate(candyMachine)}
-                          style={{ justifyContent: "flex-end" }}
-                          status={
-                            candyMachine?.state?.isSoldOut ||
-                              (endDate && Date.now() > endDate.getTime())
-                              ? "COMPLETED"
-                              : isPresale
-                                ? "PRESALE"
-                                : "LIVE"
-                          }
-                          onComplete={toggleMintButton}
-                        />
-                        {isPresale &&
-                          candyMachine.state.goLiveDate &&
-                          candyMachine.state.goLiveDate.toNumber() >
-                          new Date().getTime() / 1000 && (
-                            <Typography
-                              variant="caption"
-                              align="center"
-                              display="block"
-                              style={{ fontWeight: "bold" }}
-                            >
-                              UNTIL PUBLIC MINT
-                            </Typography>
-                          )}
-                      </>
-                    )}
-                  </Grid>
-                </Grid>
-              )}
-              <MintContainer>
-                {candyMachine?.state.isActive &&
-                  candyMachine?.state.gatekeeper &&
-                  wallet.publicKey &&
-                  wallet.signTransaction ? (
-                  <GatewayProvider
-                    wallet={{
-                      publicKey:
-                        wallet.publicKey ||
-                        new PublicKey(CANDY_MACHINE_PROGRAM),
-                      //@ts-ignore
-                      signTransaction: wallet.signTransaction,
-                    }}
-                    gatekeeperNetwork={
-                      candyMachine?.state?.gatekeeper?.gatekeeperNetwork
-                    }
-                    clusterUrl={rpcUrl}
-                    cluster={cluster}
-                    options={{ autoShowModal: false }}
+        <>
+          <Paper
+            style={{
+              padding: 24,
+              paddingBottom: 10,
+              backgroundColor: "#151A1F",
+              borderRadius: 6,
+              minHeight: 275,
+            }}
+          ><img src="/glow.png" className="glow" />
+            <img src="/battery-glow.png" className="battery" />
+            {!wallet.connected ? (
+              <ConnectButton>Connect Wallet</ConnectButton>
+            ) : (
+              <>
+                <p className="project-info">Unlock the power of the free battery mint.. unlock more with your degen score
+                </p>
+                {candyMachine && (
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    wrap="nowrap"
                   >
-                    <MintButton
+                    <Grid item xs={3}>
+                      <Typography variant="body2" color="textSecondary">
+                        Remaining
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        color="textPrimary"
+                        style={{
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {`${itemsRemaining}`}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography variant="body2" color="textSecondary">
+                        {isWhitelistUser && discountPrice
+                          ? "Discount Price"
+                          : "Price"}
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        color="textPrimary"
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {isWhitelistUser && discountPrice
+                          ? `◎ ${formatNumber.asNumber(discountPrice)}`
+                          : `◎ ${formatNumber.asNumber(
+                            candyMachine.state.price
+                          )}`}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={5}>
+                      {isActive && endDate && Date.now() < endDate.getTime() ? (
+                        <>
+                          <MintCountdown
+                            key="endSettings"
+                            date={getCountdownDate(candyMachine)}
+                            style={{ justifyContent: "flex-end" }}
+                            status="COMPLETED"
+                            onComplete={toggleMintButton}
+                          />
+                          <Typography
+                            variant="caption"
+                            align="center"
+                            display="block"
+                            style={{ fontWeight: "bold" }}
+                          >
+                            TO END OF MINT
+                          </Typography>
+                        </>
+                      ) : (
+                        <>
+                          <MintCountdown
+                            key="goLive"
+                            date={getCountdownDate(candyMachine)}
+                            style={{ justifyContent: "flex-end" }}
+                            status={
+                              candyMachine?.state?.isSoldOut ||
+                                (endDate && Date.now() > endDate.getTime())
+                                ? "COMPLETED"
+                                : isPresale
+                                  ? "PRESALE"
+                                  : "LIVE"
+                            }
+                            onComplete={toggleMintButton}
+                          />
+                          {isPresale &&
+                            candyMachine.state.goLiveDate &&
+                            candyMachine.state.goLiveDate.toNumber() >
+                            new Date().getTime() / 1000 && (
+                              <Typography
+                                variant="caption"
+                                align="center"
+                                display="block"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                UNTIL PUBLIC MINT
+                              </Typography>
+                            )}
+                        </>
+                      )}
+                    </Grid>
+                  </Grid>
+                )}
+                <MintContainer>
+                  {candyMachine?.state.isActive &&
+                    candyMachine?.state.gatekeeper &&
+                    wallet.publicKey &&
+                    wallet.signTransaction ? (
+                    <GatewayProvider
+                      wallet={{
+                        publicKey:
+                          wallet.publicKey ||
+                          new PublicKey(CANDY_MACHINE_PROGRAM),
+                        //@ts-ignore
+                        signTransaction: wallet.signTransaction,
+                      }}
+                      gatekeeperNetwork={
+                        candyMachine?.state?.gatekeeper?.gatekeeperNetwork
+                      }
+                      clusterUrl={rpcUrl}
+                      cluster={cluster}
+                      options={{ autoShowModal: false }}
+                    >
+                      <MintButton
+                        candyMachine={candyMachine}
+                        isMinting={isUserMinting}
+                        setIsMinting={(val) => setIsUserMinting(val)}
+                        onMint={onMint}
+                        isActive={
+                          isActive ||
+                          (isPresale && isWhitelistUser && isValidBalance)
+                        }
+                      /><a href="#" className="dstore">GO TO DEGEN SCORE</a>
+                    </GatewayProvider>
+                  ) : (
+                    <><MintButton
                       candyMachine={candyMachine}
                       isMinting={isUserMinting}
                       setIsMinting={(val) => setIsUserMinting(val)}
@@ -706,33 +722,21 @@ const Home = (props: HomeProps) => {
                         isActive ||
                         (isPresale && isWhitelistUser && isValidBalance)
                       }
-                    />
-                  </GatewayProvider>
-                ) : (
-                  <MintButton
-                    candyMachine={candyMachine}
-                    isMinting={isUserMinting}
-                    setIsMinting={(val) => setIsUserMinting(val)}
-                    onMint={onMint}
-                    isActive={
-                      isActive ||
-                      (isPresale && isWhitelistUser && isValidBalance)
-                    }
-                  />
-                )}
-              </MintContainer>
-            </>
-          )}
-          <div className="doxxed">Collection of 5000 PFPs</div>
-          <Typography
-            variant="caption"
-            align="center"
-            display="block"
-            style={{ marginTop: 7, color: "#f7f7f7b3" }}
-          >
-            {/* * Royalties are set to 98% and will be back to 7% when mint is completed */}
-          </Typography>
-        </Paper>
+                    /><a href="" className="dstore">GO TO DEGEN SCORE</a></>
+                  )}
+                </MintContainer>
+              </>
+            )}
+
+            <Typography
+              variant="caption"
+              align="center"
+              display="block"
+              style={{ marginTop: 7, color: "#f7f7f7b3" }}
+            >
+              {/* * Royalties are set to 98% and will be back to 7% when mint is completed */}
+            </Typography>
+          </Paper></>
       </Container>
 
       <Snackbar
