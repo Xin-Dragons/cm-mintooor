@@ -12,10 +12,9 @@ import {
   Connection,
   PublicKey,
   Transaction,
-  LAMPORTS_PER_SOL
 } from "@solana/web3.js";
-import toast, { Toaster } from 'react-hot-toast'
-import { useWallet, useConnection } from "@solana/wallet-adapter-react";
+import toast, { Toaster } from "react-hot-toast";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletDialogButton } from "@solana/wallet-adapter-material-ui";
 import {
   awaitTransactionSignatureConfirmation,
@@ -32,7 +31,6 @@ import { MintCountdown } from "./MintCountdown";
 import { MintButton } from "./MintButton";
 import { GatewayProvider } from "@civic/solana-gateway-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { add, isAfter } from 'date-fns'
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -56,15 +54,7 @@ export interface HomeProps {
   error?: string;
 }
 
-type Config = {
-  mint: string;
-  table: string;
-  title: string;
-  tokenMint?: boolean;
-}
-
 const Home = (props: HomeProps) => {
-  const { connection } = useConnection();
   const [isUserMinting, setIsUserMinting] = useState(false);
   const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>();
   const [alertState, setAlertState] = useState<AlertState>({
@@ -81,55 +71,20 @@ const Home = (props: HomeProps) => {
   const [discountPrice, setDiscountPrice] = useState<anchor.BN>();
   const [needTxnSplit, setNeedTxnSplit] = useState(true);
   const [setupTxn, setSetupTxn] = useState<SetupState>();
-  const [wlMintAddress, setWlMintAddress] = useState<PublicKey | null>(null);
-  const [isTokenMint, setIsTokenMint] = useState<boolean>(false);
-  const [canClaim, setCanClaim] = useState<boolean>(false);
-  const [time, setTime] = useState<number>(Date.now());
-  const [balance, setBalance] = useState<number>(0);
   const wallet = useWallet();
-
-  async function getSolBalance() {
-    if (wallet.publicKey) {
-      const balance = await connection.getBalance(wallet.publicKey);
-
-      setBalance(balance / LAMPORTS_PER_SOL)
-    }
-  }
 
   useEffect(() => {
     const { open, severity, message } = alertState;
     if (open) {
-      if (severity === 'error') {
-        toast.error(message)
-      } else if (severity === 'success') {
-        toast.success(message)
+      if (severity === "error") {
+        toast.error(message);
+      } else if (severity === "success") {
+        toast.success(message);
       } else {
         toast(message);
       }
     }
-  }, [alertState])
-
-  let interval: ReturnType<typeof setInterval>;
-
-  useEffect(() => {
-    interval = setInterval(() => setTime(Date.now()), 1000);
-    return () => clearInterval(interval)
-  }, [])
-
-  useEffect(() => {
-    if (candyMachine?.state?.goLiveDate) {
-      const goLiveDate = toDate(candyMachine?.state?.goLiveDate) || new Date();
-      const in15Mins = add(new Date(), { minutes: 15 });
-      setCanClaim(isAfter(in15Mins, goLiveDate))
-    }
-  }, [candyMachine?.state?.goLiveDate, time])
-
-  useEffect(() => {
-    if (!wallet?.publicKey) {
-      return;
-    }
-    getSolBalance()
-  }, [wallet?.publicKey])
+  }, [alertState]);
 
   const rpcUrl = props.rpcHost;
   const cluster = props.network;
@@ -206,7 +161,6 @@ const Home = (props: HomeProps) => {
                 cndy.state.isWhitelistOnly = true;
               }
             }
-            setWlMintAddress(cndy.state.whitelistMintSettings.mint);
             // retrieves the whitelist token
             const mint = new anchor.web3.PublicKey(
               cndy.state.whitelistMintSettings.mint
@@ -549,7 +503,11 @@ const Home = (props: HomeProps) => {
   return (
     <Container style={{ marginTop: 20 }}>
       <Toaster />
-      <Container maxWidth="xs" style={{ position: "relative" }} className="mainwrap">
+      <Container
+        maxWidth="xs"
+        style={{ position: "relative" }}
+        className="mainwrap"
+      >
         <>
           <Paper
             style={{
@@ -559,14 +517,23 @@ const Home = (props: HomeProps) => {
               borderRadius: 6,
               minHeight: 275,
             }}
-          ><img src="/glow.png" className="glow" />
+          >
+            <img src="/glow.png" className="glow" />
             <img src="/battery-glow.png" className="battery" />
             {!wallet.connected ? (
-              <> <p className="project-info not-connected">Unlock the power of the free battery mint.. unlock more with your degen score
-              </p><ConnectButton>Connect Wallet</ConnectButton></>
+              <>
+                {" "}
+                <p className="project-info not-connected">
+                  Unlock the power of the free battery mint.. unlock more with
+                  your degen score
+                </p>
+                <ConnectButton>Connect Wallet</ConnectButton>
+              </>
             ) : (
               <>
-                <p className="project-info">Unlock the power of the free battery mint.. unlock more with your degen score
+                <p className="project-info">
+                  Unlock the power of the free battery mint.. unlock more with
+                  your degen score
                 </p>
                 {candyMachine && (
                   <Grid
@@ -578,7 +545,8 @@ const Home = (props: HomeProps) => {
                     direction="row"
                     justifyContent="center"
                     wrap="nowrap"
-                    className="minting-wrap">
+                    className="minting-wrap"
+                  >
                     <Grid item xs={3}>
                       <Typography variant="body2" color="textSecondary">
                         Remaining
@@ -607,8 +575,8 @@ const Home = (props: HomeProps) => {
                         {isWhitelistUser && discountPrice
                           ? `◎ ${formatNumber.asNumber(discountPrice)}`
                           : `◎ ${formatNumber.asNumber(
-                            candyMachine.state.price
-                          )}`}
+                              candyMachine.state.price
+                            )}`}
                       </Typography>
                     </Grid>
                     <Grid item xs={5}>
@@ -638,18 +606,18 @@ const Home = (props: HomeProps) => {
                             style={{ justifyContent: "flex-end" }}
                             status={
                               candyMachine?.state?.isSoldOut ||
-                                (endDate && Date.now() > endDate.getTime())
+                              (endDate && Date.now() > endDate.getTime())
                                 ? "COMPLETED"
                                 : isPresale
-                                  ? "PRESALE"
-                                  : "LIVE"
+                                ? "PRESALE"
+                                : "LIVE"
                             }
                             onComplete={toggleMintButton}
                           />
                           {isPresale &&
                             candyMachine.state.goLiveDate &&
                             candyMachine.state.goLiveDate.toNumber() >
-                            new Date().getTime() / 1000 && (
+                              new Date().getTime() / 1000 && (
                               <Typography
                                 variant="caption"
                                 align="center"
@@ -666,9 +634,9 @@ const Home = (props: HomeProps) => {
                 )}
                 <MintContainer>
                   {candyMachine?.state.isActive &&
-                    candyMachine?.state.gatekeeper &&
-                    wallet.publicKey &&
-                    wallet.signTransaction ? (
+                  candyMachine?.state.gatekeeper &&
+                  wallet.publicKey &&
+                  wallet.signTransaction ? (
                     <GatewayProvider
                       wallet={{
                         publicKey:
@@ -693,19 +661,27 @@ const Home = (props: HomeProps) => {
                           isActive ||
                           (isPresale && isWhitelistUser && isValidBalance)
                         }
-                      /><a href="https://degen.dexterlab.com/" className="dstore">GO TO DEGEN SCORE</a>
+                      />
+                      <a href="https://degen.dexterlab.com/" className="dstore">
+                        GO TO DEGEN SCORE
+                      </a>
                     </GatewayProvider>
                   ) : (
-                    <><MintButton
-                      candyMachine={candyMachine}
-                      isMinting={isUserMinting}
-                      setIsMinting={(val) => setIsUserMinting(val)}
-                      onMint={onMint}
-                      isActive={
-                        isActive ||
-                        (isPresale && isWhitelistUser && isValidBalance)
-                      }
-                    /><a href="" className="dstore">GO TO DEGEN SCORE</a></>
+                    <>
+                      <MintButton
+                        candyMachine={candyMachine}
+                        isMinting={isUserMinting}
+                        setIsMinting={(val) => setIsUserMinting(val)}
+                        onMint={onMint}
+                        isActive={
+                          isActive ||
+                          (isPresale && isWhitelistUser && isValidBalance)
+                        }
+                      />
+                      <a href="" className="dstore">
+                        GO TO DEGEN SCORE
+                      </a>
+                    </>
                   )}
                 </MintContainer>
               </>
@@ -719,7 +695,8 @@ const Home = (props: HomeProps) => {
             >
               {/* <a href="" className="bottom-links">Privacy Policy</a> | <a href="" className="bottom-links">Terms of Service</a> */}
             </Typography>
-          </Paper></>
+          </Paper>
+        </>
       </Container>
 
       <Snackbar
@@ -754,8 +731,8 @@ const getCountdownDate = (
     candyMachine.state.goLiveDate
       ? candyMachine.state.goLiveDate
       : candyMachine.state.isPresale
-        ? new anchor.BN(new Date().getTime() / 1000)
-        : undefined
+      ? new anchor.BN(new Date().getTime() / 1000)
+      : undefined
   );
 };
 

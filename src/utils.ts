@@ -6,7 +6,7 @@ import {
   TransactionInstruction,
   PublicKey,
   SystemProgram,
-  Transaction
+  Transaction,
 } from "@solana/web3.js";
 
 export interface AlertState {
@@ -142,25 +142,25 @@ export function createAssociatedTokenAccountInstruction(
 }
 
 type Key = {
-  pubkey: PublicKey
-}
+  pubkey: PublicKey;
+};
 
 type Instruction = {
-  data: Buffer,
-  programId: PublicKey,
-  keys: Array<Key>
-}
+  data: Buffer;
+  programId: PublicKey;
+  keys: Array<Key>;
+};
 
 type Signature = {
-  publicKey: PublicKey,
-  signature: Buffer | null
-}
+  publicKey: PublicKey;
+  signature: Buffer | null;
+};
 
 type Trans = {
   instructions: Array<Instruction>;
   feePayer: PublicKey;
   signatures: Array<Signature>;
-}
+};
 
 export function unwrapTransaction(transaction: Trans) {
   transaction.instructions = transaction.instructions.map((i: Instruction) => {
@@ -171,22 +171,20 @@ export function unwrapTransaction(transaction: Trans) {
       keys: i.keys.map((key: Key) => {
         return {
           ...key,
-          pubkey: new PublicKey(key.pubkey)
-        }
-      })
-    }
-  })
+          pubkey: new PublicKey(key.pubkey),
+        };
+      }),
+    };
+  });
 
-  transaction.feePayer = new PublicKey(transaction.feePayer)
+  transaction.feePayer = new PublicKey(transaction.feePayer);
 
-  transaction.signatures = transaction.signatures.map(s => {
+  transaction.signatures = transaction.signatures.map((s) => {
     return {
       ...s,
       publicKey: new PublicKey(s.publicKey),
-      signature: s.signature
-        ? new Buffer(s.signature)
-        : null
-    }
+      signature: s.signature ? new Buffer(s.signature) : null,
+    };
   });
 
   return new Transaction(transaction);
