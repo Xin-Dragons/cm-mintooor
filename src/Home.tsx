@@ -32,7 +32,6 @@ import { MintCountdown } from "./MintCountdown";
 import { MintButton } from "./MintButton";
 import { GatewayProvider } from "@civic/solana-gateway-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import GetWlTokens from './GetWlTokens';
 import { add, isAfter } from 'date-fns'
 
 const ConnectButton = styled(WalletDialogButton)`
@@ -56,15 +55,6 @@ export interface HomeProps {
   network: WalletAdapterNetwork;
   error?: string;
 }
-
-const config = [
-  {
-    mint: 'GX6k8CEErUYt9C78UcGYXc2AY1EVMFd4ZmLTtv1nRNGy',
-    table: 'dragonz-labs-wl',
-    title: 'WL',
-    tokenMint: false
-  },
-]
 
 type Config = {
   mint: string;
@@ -92,7 +82,6 @@ const Home = (props: HomeProps) => {
   const [needTxnSplit, setNeedTxnSplit] = useState(true);
   const [setupTxn, setSetupTxn] = useState<SetupState>();
   const [wlMintAddress, setWlMintAddress] = useState<PublicKey | null>(null);
-  const [wlSettings, setWlSettings] = useState<Config | null>(null);
   const [isTokenMint, setIsTokenMint] = useState<boolean>(false);
   const [canClaim, setCanClaim] = useState<boolean>(false);
   const [time, setTime] = useState<number>(Date.now());
@@ -134,14 +123,6 @@ const Home = (props: HomeProps) => {
       setCanClaim(isAfter(in15Mins, goLiveDate))
     }
   }, [candyMachine?.state?.goLiveDate, time])
-
-  useEffect(() => {
-    if (wlMintAddress) {
-      setWlSettings(
-        config.find(c => c.mint === wlMintAddress?.toString()) || null
-      )
-    }
-  }, [wlMintAddress])
 
   useEffect(() => {
     if (!wallet?.publicKey) {
@@ -343,7 +324,7 @@ const Home = (props: HomeProps) => {
             ) {
               setAlertState({
                 open: true,
-                message: `Couldn't fetch candy machine state from candy machine with address: ${props.candyMachineId}, using rpc: ${props.rpcHost}! You probably typed the REACT_APP_CANDY_MACHINE_ID value in wrong in your .env file, or you are using the wrong RPC!`,
+                message: `Sync error, retrying`,
                 severity: "error",
                 hideDuration: null,
               });
@@ -352,7 +333,7 @@ const Home = (props: HomeProps) => {
             ) {
               setAlertState({
                 open: true,
-                message: `Couldn't fetch candy machine state with rpc: ${props.rpcHost}! This probably means you have an issue with the REACT_APP_SOLANA_RPC_HOST value in your .env file, or you are not using a custom RPC!`,
+                message: `Sync error, retrying`,
                 severity: "error",
                 hideDuration: null,
               });
@@ -569,9 +550,6 @@ const Home = (props: HomeProps) => {
     <Container style={{ marginTop: 20 }}>
       <Toaster />
       <Container maxWidth="xs" style={{ position: "relative" }} className="mainwrap">
-        {
-          wlSettings && <GetWlTokens wlSettings={wlSettings} canClaim={true} />
-        }
         <>
           <Paper
             style={{
