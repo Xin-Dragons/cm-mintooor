@@ -678,7 +678,7 @@ const Home = (props: HomeProps) => {
                           (isPresale && isWhitelistUser && isValidBalance)
                         }
                       />
-                      <a href="" className="dstore">
+                      <a href="https://degen.dexterlab.com/" className="dstore">
                         GO TO DEGEN SCORE
                       </a>
                     </>
