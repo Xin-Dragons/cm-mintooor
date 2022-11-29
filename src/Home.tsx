@@ -584,18 +584,23 @@ const Home = (props: HomeProps) => {
           ><img src="/glow.png" className="glow" />
             <img src="/battery-glow.png" className="battery" />
             {!wallet.connected ? (
-              <ConnectButton>Connect Wallet</ConnectButton>
+              <> <p className="project-info not-connected">Unlock the power of the free battery mint.. unlock more with your degen score
+              </p><ConnectButton>Connect Wallet</ConnectButton></>
             ) : (
               <>
                 <p className="project-info">Unlock the power of the free battery mint.. unlock more with your degen score
                 </p>
                 {candyMachine && (
                   <Grid
+                    style={{
+                      marginLeft: 200,
+                      width: 500,
+                    }}
                     container
                     direction="row"
                     justifyContent="center"
                     wrap="nowrap"
-                  >
+                    className="minting-wrap">
                     <Grid item xs={3}>
                       <Typography variant="body2" color="textSecondary">
                         Remaining
@@ -710,7 +715,7 @@ const Home = (props: HomeProps) => {
                           isActive ||
                           (isPresale && isWhitelistUser && isValidBalance)
                         }
-                      /><a href="#" className="dstore">GO TO DEGEN SCORE</a>
+                      /><a href="https://degen.dexterlab.com/" className="dstore">GO TO DEGEN SCORE</a>
                     </GatewayProvider>
                   ) : (
                     <><MintButton
@@ -730,11 +735,11 @@ const Home = (props: HomeProps) => {
 
             <Typography
               variant="caption"
-              align="center"
+              align="left"
               display="block"
-              style={{ marginTop: 7, color: "#f7f7f7b3" }}
+              style={{ marginTop: 7, color: "#f7f7f7b3", paddingLeft: 200 }}
             >
-              {/* * Royalties are set to 98% and will be back to 7% when mint is completed */}
+              {/* <a href="" className="bottom-links">Privacy Policy</a> | <a href="" className="bottom-links">Terms of Service</a> */}
             </Typography>
           </Paper></>
       </Container>

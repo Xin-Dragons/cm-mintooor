@@ -199,6 +199,7 @@
       cursor: pointer;
       font-family: "Plakaat";
       line-height: 35px;
+      text-align: center;
     }
 
     .project-info {
@@ -210,7 +211,11 @@
       text-align: left;
       margin-bottom: 20px;
       padding-left: 200px;
-      padding-top: 115px;
+      padding-top: 50px;
+    }
+
+    .not-connected {
+      padding-top: 84px;
     }
 
     .glow {
@@ -233,6 +238,11 @@
       }
     }
 
+    .bottom-links {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 12px
+    }
+
     .battery {
       position: absolute;
     }
@@ -243,12 +253,34 @@
     }
 
     .MuiButton-containedPrimary,
+    .makeStyles-done-3,
     .MuiButton-containedPrimary:hover {
       background: #24FBE1 !important;
       color: #0A041A;
       font-size: 15px;
       font-weight: 900;
       line-height: 15px;
+    }
+
+    .makeStyles-done-3 {
+      padding: 4px;
+      margin-bottom: 0;
+      margin-top: 7px;
+      animation: 1.5s linear 1s infinite running pulse;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 #24FBE1;
+      }
+
+      50% {
+        box-shadow: 0 0 30px #24FBE1;
+      }
+
+      100% {
+        box-shadow: 0 0 0 #24FBE1;
+      }
     }
 
     .Balance {
@@ -303,6 +335,15 @@
 
     @media (max-width: 600px) {
 
+      .minting-wrap {
+        margin-left: 0 !important;
+        width: auto !important;
+      }
+
+      .minting-wrap div {
+        max-width: 100%;
+      }
+
       .makeStyles-root-2 .MuiPaper-root {
         padding: 0 10px;
       }
@@ -343,7 +384,7 @@
         flex-direction: column;
       }
 
-      .MuiContainer-root .MuiPaper-root p {
+      .MuiContainer-root>.MuiPaper-root>p {
         padding: 0;
         margin-top: 300px;
         text-align: center;
@@ -395,9 +436,14 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   <center>
-    <footer><a style="z-index:0;margin-top:100px;display: block;" href="https://xlaunchpad.co" target="_blank">
+    <footer>
+
+      <a style="z-index:0;margin-top:100px;display: block;" href="https://xlaunchpad.co" target="_blank">
         <img src="/xlaunchpad.png" alt="XLaunchpad" />
-      </a></footer>
+      </a><br /><a href="#" class="bottom-links" target="_blank">Privacy Policy</a> | <a href="terms-of-service.html"
+        class="bottom-links" target="_blank">Terms of
+        Service</a>
+    </footer>
   </center>
 </body>
 
