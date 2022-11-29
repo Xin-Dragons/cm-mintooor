@@ -278,8 +278,8 @@ const Home = (props: HomeProps) => {
             ) {
               setAlertState({
                 open: true,
-                message: `Sync error, retrying`,
-                severity: "error",
+                message: `Syncing`,
+                severity: "info",
                 hideDuration: null,
               });
             } else if (
@@ -287,8 +287,8 @@ const Home = (props: HomeProps) => {
             ) {
               setAlertState({
                 open: true,
-                message: `Sync error, retrying`,
-                severity: "error",
+                message: `Syncing`,
+                severity: "info",
                 hideDuration: null,
               });
             }
